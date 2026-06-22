@@ -169,7 +169,7 @@ class LoginDialog(QDialog):
         layout.setSpacing(20)
         title = QLabel("Фитнес-приложение")
         title.setAlignment(Qt.AlignCenter)
-        title.setStyleSheet("font-size: 32px; font-weight: bold; color: #e63946; letter-spacing: 3px;")
+        title.setStyleSheet("font-size: 35px; font-weight: bold; color: #e63946; letter-spacing: 3px;")
         layout.addWidget(title)
         form = QFormLayout()
         self.username_edit = QLineEdit()
@@ -926,6 +926,7 @@ class TrainingsWindow(QDialog):
         group_layout = QHBoxLayout(group_panel)
         group_layout.addWidget(QLabel("Ваш уровень и состояние ОДА:"))
 
+
         self.group_buttons = []
         self.group_button_group = QButtonGroup(self)
         for gid, info in group_info.items():
@@ -935,6 +936,7 @@ class TrainingsWindow(QDialog):
             self.group_buttons.append(rb)
             self.group_button_group.addButton(rb, gid)
             group_layout.addWidget(rb)
+            rb.setStyleSheet("font-size: 17px;")
             if gid == self.current_group:
                 rb.setChecked(True)
         group_layout.addStretch()
@@ -1054,23 +1056,34 @@ class BjuWindow(QDialog):
 
         self.result_label = QLabel()
         self.result_label.setWordWrap(True)
-        self.result_label.setStyleSheet("background-color: #1e1e1e; padding: 15px; border-radius: 12px; font-size: 16px;")
+        self.result_label.setStyleSheet("background-color: #1e1e1e; padding: 15px; border-radius: 12px; font-size: 20px;")
         layout.addWidget(self.result_label)
 
         self.water_label = QLabel()
         self.water_label.setWordWrap(True)
-        self.water_label.setStyleSheet("background-color: #1e1e1e; padding: 15px; border-radius: 12px; font-size: 16px;")
+        self.water_label.setStyleSheet("background-color: #1e1e1e; padding: 15px; border-radius: 12px; font-size: 20px;")
         layout.addWidget(self.water_label)
-
         layout.addStretch(1)
+        content.setStyleSheet("""
+            QLabel {
+                font-size: 20px;
+            }
+            QLineEdit {
+                font-size: 20px;
+            }
+            QComboBox {
+                font-size: 20px;
+            }
+        """)
+        scroll.setWidget(content)
 
         scroll.setWidget(content)
         main_layout.addWidget(scroll)
 
-        # Нижние кнопки всегда видны
         bottom_layout = QHBoxLayout()
         bottom_layout.addStretch()
         main_layout.addLayout(bottom_layout)
+
 
     def open_training_recommendation(self):
         try:
@@ -1383,29 +1396,30 @@ class ReferenceWindow(QDialog):
     def init_ui(self):
         layout = QVBoxLayout()
         tabs = QTabWidget()
+        tabs.setStyleSheet("QTabBar::tab { font-size: 20px; }")
 
         sports = QTextEdit()
         sports.setReadOnly(True)
         sports.setHtml(sportpit)
-        sports.setStyleSheet("background-color: #1e1e1e; border: none; padding: 12px; font-size: 15px;")
+        sports.setStyleSheet("background-color: #1e1e1e; border: none; padding: 12px; font-size: 25px;")
         tabs.addTab(sports, "Спортивное питание")
 
         period = QTextEdit()
         period.setReadOnly(True)
         period.setHtml(periodization)
-        period.setStyleSheet("background-color: #1e1e1e; border: none; padding: 12px; font-size: 15px;")
+        period.setStyleSheet("background-color: #1e1e1e; border: none; padding: 12px; font-size: 25px;")
         tabs.addTab(period, "Периодизация")
 
         balanced = QTextEdit()
         balanced.setReadOnly(True)
         balanced.setHtml(diet)
-        balanced.setStyleSheet("background-color: #1e1e1e; border: none; padding: 12px; font-size: 15px;")
+        balanced.setStyleSheet("background-color: #1e1e1e; border: none; padding: 12px; font-size: 25px;")
         tabs.addTab(balanced, "Сбалансированное питание")
 
         weight = QTextEdit()
         weight.setReadOnly(True)
         weight.setHtml(work_weight)
-        weight.setStyleSheet("background-color: #1e1e1e; border: none; padding: 12px; font-size: 15px;")
+        weight.setStyleSheet("background-color: #1e1e1e; border: none; padding: 12px; font-size: 25px;")
         tabs.addTab(weight, "Рабочий вес")
         layout.addWidget(tabs, 1)
 
@@ -1495,10 +1509,14 @@ class GigaChatWidget(QDialog):
         self.last_question = ""
         self.system_prompt = {
             "role": "system",
-            "content": "Ты — опытный фитнес-тренер. Отвечай на вопросы пользователя строго на русском языке, "
-            "избегай любых вставок на других языках. Все аббревиатуры и специализированные термины всегда расшифровывай. "
-            "Давай рекомендации, основанные на научных данных и проверенных методиках. Если не уверен в ответе — так и скажи."
-            "Указывай на возможные противопоказания, даже если пользователь их не дал."
+            "content": "Ты — опытный фитнес-тренер. Отвечай на вопросы "
+                       "пользователя строго на русском языке, "
+                       "избегай любых вставок на других языках. Все "
+                       "аббревиатуры и специализированные термины всегда "
+                       "расшифровывай. Давай рекомендации, основанные на "
+                       "научных данных и проверенных методиках. Если не "
+                       "уверен в ответе — так и скажи. Указывай на возможные "
+                       "противопоказания, даже если пользователь их не дал."
         }
         self.conversation_messages = external_history
         if not self.conversation_messages:
@@ -1553,7 +1571,7 @@ class GigaChatWidget(QDialog):
             "• Всегда помните: алгоритмы могут ошибаться."
         )
         text.setWordWrap(True)
-        text.setStyleSheet("font-size: 16px; padding: 20px;")
+        text.setStyleSheet("font-size: 22px; padding: 20px;")
         layout.addWidget(text)
 
         close_btn = QPushButton("Понятно")
@@ -1681,7 +1699,7 @@ class FitnessApp(QWidget):
                 background: transparent;
                 color: #e63946;
                 border: 1px solid #e63946;
-                font-size: 14px;
+                font-size: 20px;
                 border-radius: 4px;
                 padding: 0px;
             }
